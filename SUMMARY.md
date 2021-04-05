@@ -3,8 +3,6 @@
 * [Initial page](README.md)
 * [深入理解Java虚拟机](shen-ru-li-jie-java-xu-ni-ji.md)
 * [面经整理](mian-jing-zheng-li.md)
-* [样式](yang-shi.md)
-* [数组](leetcode.md)
 * [数据库](shu-ju-ku.md)
 * [代理模式](she-ji-mo-shi.md)
 * [数据结构](shu-ju-jie-gou.md)
