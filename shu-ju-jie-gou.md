@@ -1,4 +1,6 @@
-### 二叉树
+# 数据结构
+
+## 二叉树
 
 ```java
 class TreeNode {
@@ -12,7 +14,7 @@ class TreeNode {
 }
 ```
 
-#### 先序遍历
+### 先序遍历
 
 ```java
 public static int[] preorder(TreeNode root) {
@@ -43,7 +45,7 @@ public static void preoredr(TreeNode root, LinkedList<Integer> result) {
 }
 ```
 
-#### 中序遍历
+### 中序遍历
 
 ```java
 public static int[] inorder(TreeNode root) {
@@ -67,7 +69,7 @@ public static int[] inorder(TreeNode root) {
 }
 ```
 
-#### 后序遍历
+### 后序遍历
 
 ```java
 public static int[] postorder(TreeNode root) {
@@ -101,7 +103,7 @@ public static int[] postorder(TreeNode root) {
 }
 ```
 
-#### 层次遍历
+### 层次遍历
 
 ```java
 public static int[] leaveOrder(TreeNode root) {
@@ -121,10 +123,10 @@ public static int[] leaveOrder(TreeNode root) {
         }
     }
     return result.stream().mapToInt(Integer::valueOf).toArray();
-} 
+}
 ```
 
-#### 求树的高度
+### 求树的高度
 
 ```java
 public static int treeDepth(TreeNode root) {
@@ -151,7 +153,7 @@ public static int treeFepth(TreeNode root) {
 }
 ```
 
-#### 求树的宽度
+### 求树的宽度
 
 ```java
 public static int treeWidth(TreeNode root) {
@@ -178,9 +180,9 @@ public static int treeWidth(TreeNode root) {
 }
 ```
 
-### 二叉搜索树
+## 二叉搜索树
 
-#### 插入节点
+### 插入节点
 
 ```java
 public static void insertNode(TreeNode root, int key) {
@@ -190,7 +192,7 @@ public static void insertNode(TreeNode root, int key) {
     }
     TreeNode p = root;
     TreeNode preNode = null;
-    
+
     while (p != null) {
         preNode = p;
         // val值为int型
@@ -208,11 +210,11 @@ public static void insertNode(TreeNode root, int key) {
 }
 ```
 
-#### 删除节点
+### 删除节点
 
-- 没有左右子节点，可以直接删除
-- 存在左节点或者右节点，删除后需要对子节点移动
-- 同时存在左右子节点，不能简单的删除，但是可以通过和**后继**节点交换后转换为前两种情况
+* 没有左右子节点，可以直接删除
+* 存在左节点或者右节点，删除后需要对子节点移动
+* 同时存在左右子节点，不能简单的删除，但是可以通过和**后继**节点交换后转换为前两种情况
 
 ```java
 TreeNode deleteNode(TreeNode root, int key) {
@@ -259,7 +261,7 @@ public static void deleteNode(TreeNode root, int key) {
     // 情况三，同时存在左右节点
     if (p.left != null && p.right != null) {
         TreeNode next = p.right;
-    	while (next.left != null) {
+        while (next.left != null) {
             next = next.left;
         }
         p.val = next.val; // 后置节点转移到当前节点
@@ -273,7 +275,7 @@ public static void deleteNode(TreeNode root, int key) {
         child = p.right;
     }
     if (child != null) {
-     	// 不等于null即存在一个节点
+         // 不等于null即存在一个节点
         child.parent = p.parent;
     }
     if (p.parent == null) {
@@ -282,22 +284,20 @@ public static void deleteNode(TreeNode root, int key) {
     } else if (p == p.parent.left)
         p.parent.left = child;
     } else {
-    	p.parent.right = child;
-	}
+        p.parent.right = child;
+    }
 }
 ```
 
-
-
-### 红黑树
+## 红黑树
 
 二叉搜索树存在的问题：BST存在的主要问题是，数在插入的时候会导致树倾斜，不同的插入顺序会导致树的高度不一样，而树的高度直接的影响了树的查找效率。理想的高度是logN，最坏的情况是所有的节点都在一条斜线上，这样的树的高度为N。
 
-基于BST存在的问题，一种新的树——平衡二叉查找树(Balanced BST)产生了。平衡树在插入和删除的时候，会通过旋转操作将高度保持在logN。其中两款具有代表性的平衡树分别为AVL树和红黑树**。AVL树由于实现比较复杂，而且插入和删除性能差，在实际环境下的应用不如红黑树**。
+基于BST存在的问题，一种新的树——平衡二叉查找树\(Balanced BST\)产生了。平衡树在插入和删除的时候，会通过旋转操作将高度保持在logN。其中两款具有代表性的平衡树分别为AVL树和红黑树**。AVL树由于实现比较复杂，而且插入和删除性能差，在实际环境下的应用不如红黑树**。
 
 **红黑树从根节点到叶子节点的最长路径不会超过最短路径的两倍**
 
-#### 定义
+### 定义
 
 红黑树首先是一个二叉查找树，其次它满足一下条件：
 
@@ -307,66 +307,51 @@ public static void deleteNode(TreeNode root, int key) {
 4. 从任一节点到其每个叶子的所有路径都包含相同数目的黑色节点。
 5. 空节点被认为是黑色的。
 
-红黑树的高度在[logN,logN+1]（理论上，极端的情况下可以出现RBTree的高度达到2*logN）。RBTree的删除和插入操作的时间复杂度也是O(logN)。
+红黑树的高度在\[logN,logN+1\]（理论上，极端的情况下可以出现RBTree的高度达到2\*logN）。RBTree的删除和插入操作的时间复杂度也是O\(logN\)。
 
-#### 插入操作
+### 插入操作
 
 Rotate分为left-rotate（左旋）和right-rotate（右旋），区分左旋和右旋的方法是：**待旋转的节点从左边上升到父节点就是右旋，待旋转的节点从右边上升到父节点就是左旋**。
 
 设插入一个新节点X
 
 1. 新插入的节点是红色的
-
 2. 如果X是根节点，则标记为黑色，否则执行下一步
-
 3. 如果X的父节点是黑色则直接插入，否则执行下一步
-
 4. 如果X的父节点是红色，分为一下三种情况
+   * 叔叔节点也为红色
 
-    - 叔叔节点也为红色
+     将父节点和叔叔节点与祖父节点的颜色互换，此时祖父节点为红色，相当于新节点，这个时候需要对祖父节点为起点进行调节（向上回溯）。
 
-        将父节点和叔叔节点与祖父节点的颜色互换，此时祖父节点为红色，相当于新节点，这个时候需要对祖父节点为起点进行调节（向上回溯）。
+     ![](https://gitee.com/coldsun233/NotePic/raw/master/img/rbTree_add1.jpg)
 
-        <img src="https://gitee.com/coldsun233/NotePic/raw/master/img/rbTree_add1.jpg" style="zoom:80%;" />
+   * 叔叔节点为空（黑色），且祖父节点、父节点和新节点处于一条斜线上。
 
-    - 叔叔节点为空（黑色），且祖父节点、父节点和新节点处于一条斜线上。
+     将父亲节点进行右旋（左旋）操作，并且父亲节点和祖父节点的颜色互换。
 
-        将父亲节点进行右旋（左旋）操作，并且父亲节点和祖父节点的颜色互换。
+      左左情况 ![](https://gitee.com/coldsun233/NotePic/raw/master/img/rbTree_add2_1.jpg) 右右情况 ![](https://gitee.com/coldsun233/NotePic/raw/master/img/rbTree_add2_2.jpg)
 
-        <div style="display: flex;text-align:center;">
-            <div style="flex:1;">
-                左左情况
-                <img src="https://gitee.com/coldsun233/NotePic/raw/master/img/rbTree_add2_1.jpg" style="zoom:80%;" />
-            </div>
-            <div style="flex:1;">
-                右右情况
-                <img src="https://gitee.com/coldsun233/NotePic/raw/master/img/rbTree_add2_2.jpg" style="zoom:80%;" />
-            </div>
-        </div>
+   * 叔叔节点为空（黑色），且祖父节点、父节点和新节点不处于一条斜线上。
 
-    - 叔叔节点为空（黑色），且祖父节点、父节点和新节点不处于一条斜线上。
+     将新节点进行左旋（右旋）操作，变为情况二的左左（右右）状态，然后在进行相应的处理。
 
-        将新节点进行左旋（右旋）操作，变为情况二的左左（右右）状态，然后在进行相应的处理。
+     ![](https://gitee.com/coldsun233/NotePic/raw/master/img/rbTree_add3_1.jpg)
 
-        <img src="https://gitee.com/coldsun233/NotePic/raw/master/img/rbTree_add3_1.jpg" style="zoom:80%;" />
+     ![](https://gitee.com/coldsun233/NotePic/raw/master/img/rbTree_add3_2.jpg)
 
-        <img src="https://gitee.com/coldsun233/NotePic/raw/master/img/rbTree_add3_2.jpg" style="zoom:80%;" />
-
-#### 删除操作
+### 删除操作
 
 设删除一个节点X
 
 1. 如果X是页节点，直接删除X
 
-### 数组
+## 数组
 
+## 排序
 
+### 堆排序
 
-### 排序
-
-#### 堆排序
-
-##### 构建大顶堆
+#### 构建大顶堆
 
 **假设数组从下标1开始存储数据**，代码如下：
 
@@ -410,7 +395,7 @@ void heapAdjust(int[] A, int r, int heapSize) {
 }
 ```
 
-##### heapSort
+#### heapSort
 
 ```java
 public static void maxHeapSort(int[] a, int size) {
@@ -424,9 +409,9 @@ public static void maxHeapSort(int[] a, int size) {
 }
 ```
 
-#### 快排
+### 快排
 
-##### partition
+#### partition
 
 ```java
 /**
@@ -444,7 +429,7 @@ private int partition(int[] nums, int left, int right) {
         if (num[j] < pivot) {
             i++;
             if (i != j)
-            	swap(num, i, j);
+                swap(num, i, j);
         }
     }
     // 在之前遍历的过程中，满足 [left + 1, i] < pivot，并且 (i, right] >= pivot
@@ -454,7 +439,7 @@ private int partition(int[] nums, int left, int right) {
 }
 ```
 
-##### quickSort
+#### quickSort
 
 ```java
 public static void quickSort(int a[],int l,int r) {
@@ -465,7 +450,7 @@ public static void quickSort(int a[],int l,int r) {
 }
 ```
 
-#### 归并排序
+### 归并排序
 
 ```java
 public static void merge_sort(int a[],int first,int last,int temp[]){
@@ -513,11 +498,11 @@ public static void mergeArray(int a[],int first,int middle,int end,int temp[]){
 }
 ```
 
-### 字符串
+## 字符串
 
-#### KMP
+### KMP
 
-求next数组，next[i] = k，表示模式串的子串`pattern[0:i]`的前缀和后缀最长公共元素的长度为k。
+求next数组，next\[i\] = k，表示模式串的子串`pattern[0:i]`的前缀和后缀最长公共元素的长度为k。
 
 ```java
 public int[] getNext(String pattern) {
@@ -570,17 +555,15 @@ public int[] KMP(String text, String pattern) {
 }
 ```
 
-### 回溯
+## 回溯
 
-
-
-### 动态规划
+## 动态规划
 
 动态规划一般是自顶向下，在这个过程中，可能会出现重复的子问题，这时可以使用备忘录的形式来减少不必要的计算，此外，可以根据递推公式自底向上，进行优化。5
 
-### 股票交易
+## 股票交易
 
-股票交易共有三个状态，天数，最大交易次数，是否持有股票(0表示不持有，1表示持有)，使用一个三维数组表示，共有$n\times k \times 2$种状态
+股票交易共有三个状态，天数，最大交易次数，是否持有股票\(0表示不持有，1表示持有\)，使用一个三维数组表示，共有$n\times k \times 2$种状态
 
 ```java
 dp[i][k][0]  // 表示第i天，没有持有股票，最大交易次数为k，所获得的的利润
@@ -601,6 +584,5 @@ dp[i][0][1] = Integer.MIN_VALUE
 
 // init basecase
 int[][][] dp = new int[ni+1][nk+1][2];
-
 ```
 

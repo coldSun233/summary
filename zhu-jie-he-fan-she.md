@@ -1,67 +1,67 @@
-### 注解Annotation
+# 注解和反射
+
+## 注解Annotation
 
 注解可以理解为代码里的特殊标记，这些标记可以在编译，类加载，运行时被读取，并执行相应的处理。
 
-#### 内置注解
+### 内置注解
 
-- @Override - 检查该方法是否是重写方法。如果发现其父类，或者是引用的接口中并没有该方法时，会报编译错误。
-- @Deprecated - 标记过时方法。如果使用该方法，会报编译警告。
-- @SuppressWarnings - 指示编译器去忽略注解中声明的警告，需要传值，例如@suppressWarnings("all")。
+* @Override - 检查该方法是否是重写方法。如果发现其父类，或者是引用的接口中并没有该方法时，会报编译错误。
+* @Deprecated - 标记过时方法。如果使用该方法，会报编译警告。
+* @SuppressWarnings - 指示编译器去忽略注解中声明的警告，需要传值，例如@suppressWarnings\("all"\)。
+* @SafeVarargs - Java 7 开始支持，忽略任何使用参数为泛型变量的方法或构造函数调用产生的警告。
+* @FunctionalInterface - Java 8 开始支持，标识一个匿名函数或函数式接口。
 
-- @SafeVarargs - Java 7 开始支持，忽略任何使用参数为泛型变量的方法或构造函数调用产生的警告。
-- @FunctionalInterface - Java 8 开始支持，标识一个匿名函数或函数式接口。
-
-#### 元注解
+### 元注解
 
 作用于其他注解的注解
 
-- **@Retention**
+* **@Retention**
 
-    Retention英文意思有保留、保持的意思，它**表示注解存在阶段是保留在源码（编译期），字节码（类加载）或者运行期（JVM中运行）**。在@Retention注解中使用枚举RetentionPolicy来表示注解保留时期。
+  Retention英文意思有保留、保持的意思，它**表示注解存在阶段是保留在源码（编译期），字节码（类加载）或者运行期（JVM中运行）**。在@Retention注解中使用枚举RetentionPolicy来表示注解保留时期。
 
-    @Retention(RetentionPolicy.SOURCE)，注解仅存在于源码中，在class字节码文件中不包含
+  @Retention\(RetentionPolicy.SOURCE\)，注解仅存在于源码中，在class字节码文件中不包含
 
-    @Retention(RetentionPolicy.CLASS)， 默认的保留策略，注解会在class字节码文件中存在，但运行时无法获得
+  @Retention\(RetentionPolicy.CLASS\)， 默认的保留策略，注解会在class字节码文件中存在，但运行时无法获得
 
-    @Retention(RetentionPolicy.RUNTIME)， 注解会在class字节码文件中存在，在运行时可以通过反射获取到
+  @Retention\(RetentionPolicy.RUNTIME\)， 注解会在class字节码文件中存在，在运行时可以通过反射获取到
 
-- **@Documented** - 标记这些注解是否包含在用户文档中。
+* **@Documented** - 标记这些注解是否包含在用户文档中。
+* **@Target**
 
-- **@Target** 
+  Target的英文意思是目标，这也很容易理解，使用@Target元注解**表示的注解作用的范围**，可以是类，方法，方法参数变量等，同样也是通过枚举类ElementType表达作用类型。
 
-    Target的英文意思是目标，这也很容易理解，使用@Target元注解**表示的注解作用的范围**，可以是类，方法，方法参数变量等，同样也是通过枚举类ElementType表达作用类型。
+  @Target\(ElementType.TYPE\) 作用接口、类、枚举、注解
 
-    @Target(ElementType.TYPE) 作用接口、类、枚举、注解
+  @Target\(ElementType.FIELD\) 作用属性字段、枚举的常量
 
-    @Target(ElementType.FIELD) 作用属性字段、枚举的常量
+  @Target\(ElementType.METHOD\) 作用方法
 
-    @Target(ElementType.METHOD) 作用方法
+  @Target\(ElementType.PARAMETER\) 作用方法参数
 
-    @Target(ElementType.PARAMETER) 作用方法参数
+  @Target\(ElementType.CONSTRUCTOR\) 作用构造函数
 
-    @Target(ElementType.CONSTRUCTOR) 作用构造函数
+  @Target\(ElementType.LOCAL\_VARIABLE\)作用局部变量
 
-    @Target(ElementType.LOCAL_VARIABLE)作用局部变量
+  @Target\(ElementType.ANNOTATION\_TYPE\)作用于注解（@Retention注解中就使用该属性）
 
-    @Target(ElementType.ANNOTATION_TYPE)作用于注解（@Retention注解中就使用该属性）
+  @Target\(ElementType.PACKAGE\) 作用于包
 
-    @Target(ElementType.PACKAGE) 作用于包
+  @Target\(ElementType.TYPE\_PARAMETER\) 作用于类型泛型，即泛型方法、泛型类、泛型接口 （jdk1.8加入）
 
-    @Target(ElementType.TYPE_PARAMETER) 作用于类型泛型，即泛型方法、泛型类、泛型接口 （jdk1.8加入）
+  @Target\(ElementType.TYPE\_USE\) 类型使用.可以用于标注任意类型除了 class （jdk1.8加入）
 
-    @Target(ElementType.TYPE_USE) 类型使用.可以用于标注任意类型除了 class （jdk1.8加入）
+* **@Inherited**
 
-- **@Inherited** 
+  被@Inherited注解了的注解修饰了一个父类，如果他的子类没有被其他注解修饰，则它的子类也继承了父类的注解。
 
-    被@Inherited注解了的注解修饰了一个父类，如果他的子类没有被其他注解修饰，则它的子类也继承了父类的注解。
+  这个注解指定被他修饰的注解将具有继承性——如果某个类使用了@Xxx，则其子类将自动被@Xxx修饰
 
-    这个注解指定被他修饰的注解将具有继承性——如果某个类使用了@Xxx，则其子类将自动被@Xxx修饰
+* **@Repeatable**
 
-- **@Repeatable**
+  Repeatable的英文意思是可重复的。顾名思义说明被这个元注解修饰的注解可以同时作用一个对象多次，但是每次作用注解又可以代表不同的含义。
 
-    Repeatable的英文意思是可重复的。顾名思义说明被这个元注解修饰的注解可以同时作用一个对象多次，但是每次作用注解又可以代表不同的含义。
-
-#### 自定义注解
+### 自定义注解
 
 使用`@interface`自定义注解时，自动继承`Annotation`接口
 
@@ -76,35 +76,34 @@ public @interface 注解名{
 }
 ```
 
-### 反射机制
+## 反射机制
 
 Java反射机制是在运行状态中，对于任意一个类，都能够知道这个类中的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法和属性；这种动态获取的信息以及动态调用对象的方法的功能称为java语言的反射机制。
 
-#### 获得Class类的几种方式
+### 获得Class类的几种方式
 
-- 若已知具体的类，通过类的`class`属性获取，该方法最为安全可靠，程序性能最高
+* 若已知具体的类，通过类的`class`属性获取，该方法最为安全可靠，程序性能最高
 
-    ```java
+  ```java
     Class clazz = Person.class;
-    ```
+  ```
 
-- 已知某个类的实例，调用该实例的`getClass()`方法获取Class对象
+* 已知某个类的实例，调用该实例的`getClass()`方法获取Class对象
 
-    ```java
+  ```java
     Class clazz = person.getClass();
-    ```
+  ```
 
-- 已知一个类的全类名，且该类在类路径下，可通过Class类的静态方法f`orName()`获取，可能抛出`ClassNotFoundException`
+* 已知一个类的全类名，且该类在类路径下，可通过Class类的静态方法f`orName()`获取，可能抛出`ClassNotFoundException`
 
-    ```java
+  ```java
     Class clazz = Class.forName("come.example.Person");
-    ```
+  ```
 
-- 内置基本数据内型的包装类可以直接用类名.Type
+* 内置基本数据内型的包装类可以直接用类名.Type
+* 利用ClassLoader
 
-- 利用ClassLoader
-
-#### 拥有Class对象的类型
+### 拥有Class对象的类型
 
 ```java
 Class c1 = Object.class;  // 类
@@ -122,7 +121,7 @@ int[] b = new int[100];
 // a.getClass() == b.getClass()
 ```
 
-#### 获取类的运行时数据结构
+### 获取类的运行时数据结构
 
 Class类的实例方法
 
@@ -157,7 +156,7 @@ public Method[] getDeclaredMethods() throws SecurityException
 
 返回包含一个数组方法对象反射的类或接口的所有声明的方法，通过此表示类对象，包括公共，保护，默认（包）访问和私有方法，但**不包括继承的方法**。
 
-#### 动态创建对象执行方法
+### 动态创建对象执行方法
 
 ```java
 Class student = Class.forName("come.example.Student");
@@ -182,16 +181,16 @@ name.set("tom");
 name.get();
 ```
 
-#### 反射操作泛型
+### 反射操作泛型
 
 Java中的泛型仅仅只是给编译器Javac使用的，确保数据的安全性和免去强制类型转换的问题，但是，一旦编译完成，所有和泛型有关的类型全部擦除。
 
 为了通过反射操作泛型，Java新增了几种类型
 
-- ParameterizedType	表示一种参数化的类型 , 比如 Collection\<String>,可以获取 String信息
-- GenericArrayType	泛型数组类型
-- TypeVariable	各种类型变量的公共父接口
-- WildcardType	代表一种通配符类型表达式，比如? extends Number,? super Integer (Wildcard 是一个单词，就是通配符)
+* ParameterizedType    表示一种参数化的类型 , 比如 Collection\,可以获取 String信息
+* GenericArrayType    泛型数组类型
+* TypeVariable    各种类型变量的公共父接口
+* WildcardType    代表一种通配符类型表达式，比如? extends Number,? super Integer \(Wildcard 是一个单词，就是通配符\)
 
 ```java
 public void test01(Map<String, Person> map, List<Person> list){
@@ -229,17 +228,17 @@ if (genericReturnType instanceof ParameterizedType) {
 }
 ```
 
-#### 反射操作注解
+### 反射操作注解
 
 Class类的一些实例方法
 
-```
+```text
 public Annotation[] getAnnotations()
 ```
 
 返回此元素上存在的注解。
 
-```
+```text
 public <A extends Annotation> A getAnnotation(Class<A> annotationClass)
 ```
 

@@ -1,4 +1,4 @@
-### Maven
+# Maven
 
 架构管理工具， 约定大于配置
 
@@ -6,7 +6,7 @@
 
 Mave在build中配置resource防止资源导出失败
 
-```xml
+```markup
 <build>
       <resources>
         <resource>
